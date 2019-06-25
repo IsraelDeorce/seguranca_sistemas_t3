@@ -1,0 +1,17 @@
+Aluno: ISRAEL DEORCE VIEIRA JUNIOR
+
+Nome do arquivo: seguranca_sistemas_t3\src\seguranca_sistemas_t3\RSA.java
+
+Para executar o programa, importe o projeto para o eclipse e clique em start. 
+Também é possivel executar a aplicação passando um texto claro via argumento.
+
+OBS: Por algum motivo, ao tentar compilar e executar o programa via linha de 
+comando com o javac, um erro estranho está acontecendo:
+"Não foi possivel localizar nem carregar a classe principal RSA"
+
+Isso parece ser algo do compilador do java da minha máquina, e não do código em si, 
+pois tanto no eclipse quanto em um compilador on-line, tudo está funcionando perfeitamente.
+
+Compilador on-line: 		https://www.compilejava.net/
+
+Link do Projeto no GITHUB: https://github.com/IsraelDeorce/seguranca_sistemas_t3

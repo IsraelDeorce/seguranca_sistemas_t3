@@ -34,11 +34,15 @@ public class RSA {
 	/*
 	 * Sumario de variaveis:
 	 * 
-	 * textoClaro = Texto a ser incriptado p = um numero primo qualquer de tamanho
-	 * 1024 bits; q = um numero primo qualquer de tamanho 1024; N = p * q; eulerN =
-	 * (p-1) * (q-1) e = Chave publica; d = Chave privada textoCifrado = Texto claro
-	 * em formato numerico apos cifragem textoDecifrado = Texto claro em formato
-	 * numerico apos decifragem
+	 * textoClaro = Texto a ser incriptado;
+	 * p = um numero primo qualquer de tamanho 1024 bits; 
+	 * q = um numero primo qualquer de tamanho 1024; 
+	 * N = p * q; 
+	 * eulerN = * (p-1) * (q-1);
+	 * e = Chave publica; 
+	 * d = Chave privada;
+	 * textoCifrado = Texto claro em formato numerico apos cifragem;
+	 * textoDecifrado = Texto claro em formato numerico apos decifragem
 	 */
 	private static Random rnd = new Random();
 	private static String textoClaro = "O Israel vai se sair bem no trabalho do Avelino!";
@@ -50,7 +54,7 @@ public class RSA {
 
 		// ### Gerando numeros primos... ###
 		//
-		// Para encriptar uma mensagem RSA, precisaremos de dois numeros primos (p e q).
+		// Para encriptar uma mensagem RSA, precisa-se de dois numeros primos (p e q).
 		// Para gerar os numeros primos de 1024 bits, utiliza-se a biblioteca BigInteger
 		// que utiliza Fermat, passando valor randomico e o tamanho do numero.
 		//
@@ -66,7 +70,7 @@ public class RSA {
 		N = p.multiply(q);
 		System.out.println("N: " + N);
 
-		// ### Descobrir o e (chave publica) ###
+		// ### Descobrir o 'e' (chave publica) ###
 		//
 		// Descobrir Euler(N), fazendo Euler(N) = p-1 * q-1;
 		//
@@ -83,15 +87,14 @@ public class RSA {
 		} while (!(e.gcd(eulerN)).equals(BigInteger.ONE) || e.longValue() < 1);
 		System.out.println("Chave Publica e: " + e);
 
-		// ### Descobrir o d (chave privada) ###
+		// ### Descobrir o 'd' (chave privada) ###
 		//
 		// Utiliza-se o algoritmo extendido de Euclides para encontrar a chave privada
 		// 'd'. O 'd' deve ser o inverso de 'e' no mod de 'eulerN' para isso, multiplico
-		// 'e'
-		// pelos valores de Zn ate encontrar 1, e esse 'n' sera o inverso de 'e', n ==
-		// d.
-		// BigInteger realiza essa operacao utlizando a funcao 'e.modInverse(eulerN)'
-		//
+		// 'e' pelos valores de Zn ate encontrar 1, e esse 'n' sera o inverso de 'e', 
+		// n == d. BigInteger realiza essa operacao utlizando a funcao 
+		// 'e.modInverse(eulerN)'
+
 		d = e.modInverse(eulerN);
 		System.out.println("Chave Privada d: " + d);
 
@@ -115,6 +118,7 @@ public class RSA {
 		}
 
 		// ### Decifrando Mensagem ###
+		//
 		// Pegar mensagem cifrada e elevar na chave publica 'e' em mod 'N'
 		textoDecifrado = textoCifrado.modPow(e, N);
 		byte[] bytes = textoDecifrado.toByteArray();
