@@ -5,20 +5,20 @@ import java.math.BigInteger;
 import java.util.Random;
 
 /**
- * Este arquivo java eh uma alternativa de implementação para o exercício
- * proposto no terceiro trabalho da disciplina de Segurança de Sistemas.
+ * Este arquivo java eh uma alternativa de implementacao para o exercicio
+ * proposto no terceiro trabalho da disciplina de Seguranca de Sistemas.
  * 
  * Enunciado:
  * 
- * "Gerar uma chave pública e uma chave privada para usar com RSA. Estas chave
- * deve ter um número de bits superior a 1000. Imprimir a chave pública e chave
+ * "Gerar uma chave publica e uma chave privada para usar com RSA. Estas chave
+ * deve ter um numero de bits superior a 1000. Imprimir a chave publica e chave
  * privada. Dada uma mensagem M, cifre esta mensagem usando RSA com a chave
- * pública gerada no item 1. Imprimir a mensagem cifrada C. Dada uma mensagem C,
+ * publica gerada no item 1. Imprimir a mensagem cifrada C. Dada uma mensagem C,
  * decifre esta mensagem usando RSA com a chave privada gerada no item 1.
  * Imprimir a mensagem decifrada.
  * 
- * O programa deve gerar, usando o pequeno teorema de Fermat, os números primos
- * que comporão o módulo utilizado no RSA. Para cálculo do inverso de um número
+ * O programa deve gerar, usando o pequeno teorema de Fermat, os numeros primos
+ * que comporao o modulo utilizado no RSA. Para calculo do inverso de um numero
  * pode usar o algoritmo extendido de Euclides ou uma biblioteca pronta."
  * 
  * Fontes consultadas:
@@ -34,15 +34,11 @@ public class RSA {
 	/*
 	 * Sumario de variaveis:
 	 * 
-	 * textoClaro = Texto a ser incriptado
-	 * p = um numero primo qualquer de tamanho 1024 bits; 
-	 * q = um numero primo qualquer de tamanho 1024; 
-	 * N = p * q;
-	 * eulerN = (p-1) * (q-1)
-	 * e = Chave publica;
-	 * d = Chave privada 
-	 * textoCifrado = Texto claro em formato numerico apos cifragem
-	 * textoDecifrado = Texto claro em formato numerico apos decifragem
+	 * textoClaro = Texto a ser incriptado p = um numero primo qualquer de tamanho
+	 * 1024 bits; q = um numero primo qualquer de tamanho 1024; N = p * q; eulerN =
+	 * (p-1) * (q-1) e = Chave publica; d = Chave privada textoCifrado = Texto claro
+	 * em formato numerico apos cifragem textoDecifrado = Texto claro em formato
+	 * numerico apos decifragem
 	 */
 	private static Random rnd = new Random();
 	private static String textoClaro = "O Israel vai se sair bem no trabalho do Avelino!";
@@ -70,30 +66,30 @@ public class RSA {
 		N = p.multiply(q);
 		System.out.println("N: " + N);
 
-		
 		// ### Descobrir o e (chave publica) ###
 		//
 		// Descobrir Euler(N), fazendo Euler(N) = p-1 * q-1;
 		//
-		// "Euler’s phi function" (Gerar Zn* (ZnEuler) para n = eulerN):
+		// "Eulers phi function" (Gerar Zn* (ZnEuler) para n = eulerN):
 		// Considere todos os inteiros de 1 a 'N' inclusivo. Liste todos os inteiros que
-		// são coprimos de N. Em outras palavras, queremos encontrar os inteiros n, onde
-		// 1<='e'<='N', tal que o máximo divisor comum entre 'e' e 'eulerN' dara 1
+		// sao coprimos de N. Em outras palavras, queremos encontrar os inteiros n, onde
+		// 1<='e'<='N', tal que o maximo divisor comum entre 'e' e 'eulerN' dara 1
 		// ( gcd(e,eulerN) = 1 ).
 		eulerN = p.subtract(BigInteger.ONE).multiply(q.subtract(BigInteger.ONE));
 		System.out.println("Euler(N): " + eulerN);
-		
+
 		do {
 			e = new BigInteger(1024, rnd);
 		} while (!(e.gcd(eulerN)).equals(BigInteger.ONE) || e.longValue() < 1);
 		System.out.println("Chave Publica e: " + e);
 
-		
 		// ### Descobrir o d (chave privada) ###
 		//
 		// Utiliza-se o algoritmo extendido de Euclides para encontrar a chave privada
-		// 'd'. O 'd' deve ser o inverso de 'e' no mod de 'eulerN' para isso, multiplico 'e'
-		// pelos valores de Zn ate encontrar 1, e esse 'n' sera o inverso de 'e', n == d.
+		// 'd'. O 'd' deve ser o inverso de 'e' no mod de 'eulerN' para isso, multiplico
+		// 'e'
+		// pelos valores de Zn ate encontrar 1, e esse 'n' sera o inverso de 'e', n ==
+		// d.
 		// BigInteger realiza essa operacao utlizando a funcao 'e.modInverse(eulerN)'
 		//
 		d = e.modInverse(eulerN);
@@ -103,9 +99,9 @@ public class RSA {
 		//
 		// Para cifrar, pegar a mensagem de texto claro (Ex: "8"), e elevar essa
 		// mensagem na chave privada 'd' em mod N.
-		
-		// Para que a encriptacao e decriptacao funciona, eh preciso trabalhar com 
-		//numeros, portanto converteu-se o texto claro em bytes conforme tabela ASCII
+
+		// Para que a encriptacao e decriptacao funciona, eh preciso trabalhar com
+		// numeros, portanto converteu-se o texto claro em bytes conforme tabela ASCII
 		try {
 			System.out.println("Texto Claro: " + textoClaro);
 			byte[] bytes = textoClaro.getBytes("US-ASCII");
